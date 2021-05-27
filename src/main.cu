@@ -93,7 +93,8 @@ int main(int n_args, char** argument_array) {
     }
 #endif
     
-    std::cout << "n_seeds=" << n_seeds << " | cpu_time=" << cpu_time << " | gpu_time=" << gpu_time << " | n_errors=" << n_errors << std::endl;
+    std::cout << "n_seeds=" << n_seeds << " | cpu_time=" << cpu_time << " | gpu_time=" << gpu_time << " | n_errors=" << n_errors 
+	    << " | n_gpus=" << n_gpus << std::endl;
     
     return 0;
 }
