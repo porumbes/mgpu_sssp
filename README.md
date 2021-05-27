@@ -4,6 +4,8 @@
 
 See `./install.sh` for installation and usage.
 
+**Note:** CUDA 11.3 segfaults, use cuda/11.0.207
+
 ## Misc. Results
 
 ## MGPU results (EC2 V100)
