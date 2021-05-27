@@ -25,33 +25,34 @@ tar -xzvf v2.9.6-1.tar.gz
 rm v2.9.6-1.tar.gz
 mv nccl-2.9.6-1 nccl
 cd nccl
-make -j12
+make -j16 src.build NVCC_GENCODE="-gencode=arch=compute_70,code=sm_70 -gencode=arch=compute_80,code=sm_80 "
+cd ..
 
 # --
 # Compile
 
-make clean
-make main
+#make clean
+#make main
 
 # run w/ one seed
-./main data/chesapeake.bin
+#./main data/chesapeake.bin
 
 # run w/ 10 seeds
-./main data/chesapeake.bin 10
+#./main data/chesapeake.bin 10
 
 # --
 # Run on larger datasets
 
-function fetch_rmat {
-  SCALE=$1
-  wget https://graphchallenge.s3.amazonaws.com/synthetic/graph500-scale${SCALE}-ef16/graph500-scale${SCALE}-ef16_adj.mmio.gz
-  gunzip graph500-scale${SCALE}-ef16_adj.mmio.gz
-  mv graph500-scale${SCALE}-ef16_adj.mmio data/rmat${SCALE}.mtx
-}
+#function fetch_rmat {
+#  SCALE=$1
+#  wget https://graphchallenge.s3.amazonaws.com/synthetic/graph500-scale${SCALE}-ef16/graph500-scale${SCALE}-ef16_adj.mmio.gz
+#  gunzip graph500-scale${SCALE}-ef16_adj.mmio.gz
+#  mv graph500-scale${SCALE}-ef16_adj.mmio data/rmat${SCALE}.mtx
+#}
 
-SCALE=18
-fetch_rmat $SCALE
-python prob2bin.py --inpath data/rmat18.mtx
-./main data/rmat18.bin
+#SCALE=18
+#fetch_rmat $SCALE
+#python prob2bin.py --inpath data/rmat18.mtx
+#./main data/rmat18.bin
 
 # See `./run.sh` for more invocations
