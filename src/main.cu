@@ -9,6 +9,7 @@
 #include <iomanip>
 #include <cstdlib>
 #include <fstream>
+#include <sstream>
 #include "json.hpp"
 using json = nlohmann::json;
 
@@ -145,15 +146,30 @@ int main(int n_args, char** argument_array) {
 	      << "num-edges=" << n_edges << '\n';
     
     auto j = gpu_info_json();
+
+    // save the command line
+    std::ostringstream command_line;
+    for(int i = 0; i < n_args; i++) {
+        command_line << argument_array[i] << " ";
+    }
+    j["command-line"] = command_line.str();
+
     j["primitive"] = "vn";
     j["graph-file"] = std::string(argument_array[1]);
-    j["num_gpus"] = n_gpus;
+    //j["num_gpus"] = n_gpus;
     j["graph-edges"] = n_edges;
     j["graph-nodes"] = n_nodes;
-    j["gpu-elapsed-ms"] = (double)gpu_time / 1000.0;
+    j["avg-process-time"] = (double)gpu_time / 1000.0;
     time_t now = time(NULL);
     j["time"] = ctime(&now);
-    j["variant"] = std::string("num_seeds:") + std::to_string(n_seeds);
+    //j["variant"] = std::string("num_seeds:") + std::to_string(n_seeds);
+
+    j["tag"] = {std::string("variant:") + std::string("num_seeds-") + std::to_string(n_seeds),
+    		std::string("num-gpus:") + std::to_string(n_gpus)};
+    /*    "tag": [
+        "variant:directed-greedy",
+        "num-gpus:1"
+    ],*/
 
     // get the dataset from the json
     auto dataset = std::string(argument_array[3]);
