@@ -1,9 +1,11 @@
 #!/bin/bash
 
-PARTITION_NAME="dgx2"
+NUM_GPUS=${1:-"16"}
+
+PARTITION_NAME=${2:-"dgx2"}
+
 #PARTITION_NAME="batch"
 NODE_NAME="dgx2-000"
-NUM_GPUS=${1:-"16"}
 
 APP_SCRIPT="./hive-vn-test.sh"
 NUM_SEEDS[0]=10
